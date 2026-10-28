@@ -269,7 +269,7 @@ const CORRECT = [1, 0, 2, 2, 0, 1, 1, 1, 2, 1];
 const T = {
   pl: {
     eyebrow: "Quiz halloweenowy · 10 pytań", title: "Cukierek<br>albo psikus",
-    lead: "Odpowiedz poprawnie na wszystkie 10 pytań, a przy następnej wizycie dostaniesz deser w prezencie.",
+    lead: "Odpowiedz poprawnie na wszystkie 10 pytań, a przy następnej wizycie dostaniesz deser w prezencie. Jeden numer telefonu to jedna próba.",
     name: "Imię", namePh: "np. Kasia", lang: "Język", venue: "Lokal", phone: "Numer telefonu",
     consent: "Wyrażam zgodę na przetwarzanie moich danych (imię, numer telefonu) w celu ewidencji i wydania nagród w quizie halloweenowym.",
     start: "Zaczynamy",
@@ -278,11 +278,11 @@ const T = {
     ok: "Dobrze!", no: "Źle!", next: "Następne pytanie", finish: "Zobacz wynik",
     score: s => `Twój wynik: ${s} z 10`,
     winTitle: "Cukierek!", winText: v => `Wszystkie 10 odpowiedzi poprawnie, więc psikusa nie będzie. Przy następnej wizycie w ${v} czeka na Ciebie deser w prezencie.`,
-    loseTitle: "Psikus!", loseText: "Tym razem zamiast cukierka jest psikus. Po deser trzeba trafić wszystkie 10 odpowiedzi. Duchy dają Ci kolejną szansę.",
+    loseTitle: "Prawie!", loseText: "Tym razem deser się wymknął, ale dziękujemy za grę! Do zobaczenia w Halloween.",
     retry: "Spróbuj jeszcze raz", home: "Wróć na start", myCoupon: "Mój kupon na deser",
     sending: "Sprawdzamy odpowiedzi...", sendErr: "Nie udało się wysłać odpowiedzi. Sprawdź internet i spróbuj ponownie.", resend: "Wyślij ponownie",
     tooMany: "Za dużo prób z tego numeru. Spróbuj ponownie za godzinę.", invalid: "Coś poszło nie tak z danymi. Wróć i sprawdź formularz.", back: "Wróć do formularza",
-    repeat: "Ten numer ma już kupon. Oto Twój kod.",
+    used: "Ten numer już brał udział w quizie. Jeden numer telefonu to jedna próba. Jeśli wygrał kupon, pokaż kod obsłudze albo podaj numer telefonu.", checking: "Sprawdzamy numer...",
     ticket: "Twoja nagroda", code: "Kod", prize: "Deser w prezencie", tName: "Imię", tVenue: "Lokal", tUntil: "Ważne do",
     show: "Pokaż ten ekran obsłudze przy następnej wizycie.",
     qs: [
@@ -300,7 +300,7 @@ const T = {
   },
   uk: {
     eyebrow: "Квіз на Геловін · 10 питань", title: "Солодощі<br>або смерть",
-    lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок.",
+    lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок. Один номер телефону, одна спроба.",
     name: "Ім'я", namePh: "напр. Оля", lang: "Мова", venue: "Заклад", phone: "Номер телефону",
     consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Геловін.",
     start: "Почати",
@@ -309,11 +309,11 @@ const T = {
     ok: "Правильно!", no: "Неправильно!", next: "Наступне питання", finish: "Побачити результат",
     score: s => `Твій результат: ${s} з 10`,
     winTitle: "Солодощі!", winText: v => `Усі 10 відповідей правильні, тож смерть сьогодні відпочиває. Під час наступного візиту в ${v} на тебе чекає десерт у подарунок.`,
-    loseTitle: "Смерть!", loseText: "Цього разу замість солодощів прийшла смерть. Для десерту треба відповісти правильно на всі 10 питань. Не хвилюйся, на Геловін смерть не назавжди.",
+    loseTitle: "Майже!", loseText: "Цього разу десерт вислизнув, але дякуємо за гру! Чекаємо тебе в гості на Геловін.",
     retry: "Спробувати ще раз", home: "На головну", myCoupon: "Мій купон на десерт",
     sending: "Перевіряємо відповіді...", sendErr: "Не вдалося надіслати відповіді. Перевір інтернет і спробуй ще раз.", resend: "Надіслати ще раз",
     tooMany: "Забагато спроб з цього номера. Спробуй знову за годину.", invalid: "Щось не так із даними. Повернися й перевір форму.", back: "Повернутися до форми",
-    repeat: "На цей номер купон уже видано. Ось твій код.",
+    used: "Цей номер уже брав участь у квізі. Один номер телефону, одна спроба. Якщо цей номер виграв купон, покажи код офіціанту або просто назви номер телефону.", checking: "Перевіряємо номер...",
     ticket: "Твій приз", code: "Код", prize: "Десерт у подарунок", tName: "Ім'я", tVenue: "Заклад", tUntil: "Діє до",
     show: "Покажи цей екран офіціанту під час наступного візиту.",
     qs: [
@@ -331,7 +331,7 @@ const T = {
   },
   en: {
     eyebrow: "Halloween quiz · 10 questions", title: "Trick<br>or treat",
-    lead: "Answer all 10 questions correctly and get a free dessert on your next visit.",
+    lead: "Answer all 10 questions correctly and get a free dessert on your next visit. One attempt per phone number.",
     name: "Name", namePh: "e.g. Kate", lang: "Language", venue: "Venue", phone: "Phone number",
     consent: "I agree to the processing of my data (name, phone number) to record and hand out prizes in the Halloween quiz.",
     start: "Start",
@@ -340,11 +340,11 @@ const T = {
     ok: "Correct!", no: "Wrong!", next: "Next question", finish: "See my score",
     score: s => `Your score: ${s} of 10`,
     winTitle: "Treat!", winText: v => `All 10 correct, so no tricks tonight. A free dessert is waiting for you on your next visit to ${v}.`,
-    loseTitle: "Trick!", loseText: "No treat this time, just a trick. The dessert needs all 10 answers right. The ghosts are giving you another chance.",
+    loseTitle: "So close!", loseText: "The dessert slipped away this time, but thanks for playing! See you this Halloween.",
     retry: "Try again", home: "Back to start", myCoupon: "My dessert coupon",
     sending: "Checking your answers...", sendErr: "Couldn't send your answers. Check your connection and try again.", resend: "Send again",
     tooMany: "Too many attempts from this number. Try again in an hour.", invalid: "Something is wrong with your details. Go back and check the form.", back: "Back to the form",
-    repeat: "This number already has a coupon. Here is your code.",
+    used: "This number has already taken the quiz. One attempt per phone number. If it won a coupon, show the code to the staff or just give them the phone number.", checking: "Checking your number...",
     ticket: "Your prize", code: "Code", prize: "Free dessert", tName: "Name", tVenue: "Venue", tUntil: "Valid until",
     show: "Show this screen to the staff on your next visit.",
     qs: [
@@ -423,7 +423,7 @@ function renderStart() {
   app.innerHTML = `
     <section class="card screen">
       <div class="hero">${JACK}
-        <div class="hero-text"><p class="eyebrow">${esc(L.eyebrow)}</p><h1>${L.title}</h1></div>
+        <div class="hero-text"><h1>${L.title}</h1></div>
       </div>
       <p class="lead">${esc(L.lead)}</p>
       <form id="start" novalidate>
@@ -463,7 +463,7 @@ function renderStart() {
   const coupon = document.getElementById("coupon");
   if (coupon) coupon.addEventListener("click", () => {
     readForm();
-    Object.assign(state, { screen: "result", resultView: "win", repeat: false, results: [] });
+    Object.assign(state, { screen: "result", resultView: "win", results: [] });
     render();
     window.scrollTo({ top: 0 });
   });
@@ -482,8 +482,24 @@ function renderStart() {
       document.getElementById(first).focus();
       return;
     }
-    startRound();
+    checkPhone(ev.submitter || app.querySelector('#start button[type="submit"]'));
   });
+}
+
+async function checkPhone(btn) {
+  if (btn) { btn.disabled = true; btn.textContent = t().checking; }
+  let res = null;
+  try {
+    const r = await fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "check", phone: state.form.phone }) });
+    res = await r.json();
+  } catch (e) { res = null; }
+  if (res && res.ok && res.used) {
+    state.error = "used"; state.screen = "error"; state.results = [];
+    render();
+    window.scrollTo({ top: 0 });
+    return;
+  }
+  startRound();
 }
 
 function startRound() {
@@ -561,7 +577,6 @@ async function finish() {
     return;
   }
   state.score = res.score;
-  state.repeat = !!res.repeat;
   if (res.won) {
     state.prize = { name: payload.name, venueId: f.venue, venue: res.venue, code: res.code, createdAt: new Date().toISOString() };
     store("quiz-prize", state.prize);
@@ -583,14 +598,17 @@ function renderSending() {
 function renderError() {
   const L = t();
   const back = state.error === "invalid";
+  const done = state.error === "used" || state.error === "tooMany";
   app.innerHTML = `
     <section class="card screen">
-      ${patch()}
+      ${state.results.length ? patch() : ""}
       <h2>${esc(L[state.error] || L.sendErr)}</h2>
-      ${state.error === "tooMany" ? "" : `<button class="btn" id="again">${esc(back ? L.back : L.resend)}</button>`}
+      ${done ? `<button class="btn ghost" id="home">${esc(L.home)}</button>` : `<button class="btn" id="again">${esc(back ? L.back : L.resend)}</button>`}
     </section>`;
   const b = document.getElementById("again");
   if (b) b.addEventListener("click", () => { if (back) { state.screen = "start"; render(); } else finish(); });
+  const h = document.getElementById("home");
+  if (h) h.addEventListener("click", goHome);
 }
 
 function renderResult() {
@@ -601,7 +619,6 @@ function renderResult() {
       <section class="card screen">
         ${state.results.length ? patch() : ""}
         <h1 class="big treat">${esc(L.winTitle)}</h1>
-        ${state.repeat ? `<p class="scoreline">${esc(L.repeat)}</p>` : ""}
         <p class="lead">${esc(L.winText(venueLabelFromEntry(pz)))}</p>
         <div class="ticket">
           <div class="ticket-head"><span>${esc(L.ticket)}</span><b>${esc(pz.code)}</b></div>
@@ -624,17 +641,13 @@ function renderResult() {
       <h1 class="big trick">${esc(L.loseTitle)}</h1>
       <p class="scoreline">${esc(L.score(state.score))}</p>
       <p class="lead">${esc(L.loseText)}</p>
-      <div class="actions">
-        <button class="btn" id="retry">${esc(L.retry)}</button>
-        <button class="btn ghost" id="home">${esc(L.home)}</button>
-      </div>
+      <button class="btn ghost" id="home">${esc(L.home)}</button>
     </section>`;
-  document.getElementById("retry").addEventListener("click", startRound);
   document.getElementById("home").addEventListener("click", goHome);
 }
 
 function goHome() {
-  Object.assign(state, { screen: "start", errors: {}, repeat: false, results: [], picked: null });
+  Object.assign(state, { screen: "start", errors: {}, results: [], picked: null });
   render();
   window.scrollTo({ top: 0 });
 }

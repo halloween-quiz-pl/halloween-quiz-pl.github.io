@@ -1,5 +1,5 @@
 // Receives quiz attempts from the website, checks the answers on the server,
-// issues one prize code per phone number and logs every attempt in the sheet.
+// allows one attempt per phone number, issues a prize code to winners and logs it in the sheet.
 const SHEET_ID = '18Tuay5d2a2jqMxgYmXAsyjiJRi0TJMbSEhT-6F_H8sA';
 const SHEET_NAME = 'Відповіді';
 const HEADERS = ['Дата', "Ім'я", 'Телефон', 'Заклад', 'Мова', 'Бали', 'Виграв', 'Код купона', 'Спроба', 'Згода', 'Приз видано'];
@@ -16,8 +16,13 @@ function doPost(e) {
   let d;
   try { d = JSON.parse(e.postData.contents); } catch (err) { return reply({ ok: false, error: 'bad_request' }); }
 
-  const name = String(d.name || '').trim().slice(0, 60);
   const phone = normPhone(d.phone);
+  if (d.action === 'check') {
+    if (!phone) return reply({ ok: false, error: 'invalid' });
+    return reply({ ok: true, used: phoneUsed(sheet(), phone) });
+  }
+
+  const name = String(d.name || '').trim().slice(0, 60);
   const venue = VENUES[d.venueId];
   const lang = LANGS.indexOf(d.lang) >= 0 ? d.lang : 'pl';
   const answers = Array.isArray(d.answers) ? d.answers.slice(0, CORRECT.length).map(Number) : [];
@@ -38,19 +43,13 @@ function doPost(e) {
   lock.waitLock(15000);
   try {
     const sh = sheet();
-    let code = '';
-    let repeat = false;
-    if (won) {
-      const existing = findPrize(sh, phone);
-      if (existing) { code = existing; repeat = true; }
-      else code = newCode(sh);
-    }
+    if (phoneUsed(sh, phone)) return reply({ ok: false, error: 'used' });
+    const code = won ? newCode(sh) : '';
     sh.appendRow([
       new Date(), safe(name), safe(phone), venue, lang, score,
-      won ? (repeat ? 'так (повторно)' : 'так') : 'ні',
-      code, Number(d.attempt) || 1, 'так', ''
+      won ? 'так' : 'ні', code, 1, 'так', ''
     ]);
-    return reply({ ok: true, score: score, won: won, code: code, repeat: repeat, venue: venue });
+    return reply({ ok: true, score: score, won: won, code: code, venue: venue });
   } finally {
     lock.releaseLock();
   }
@@ -67,15 +66,15 @@ function sheet() {
   return sh;
 }
 
-// Returns the prize code already issued to this phone number, if any.
-function findPrize(sh, phone) {
+// True when this phone number has already taken the quiz.
+function phoneUsed(sh, phone) {
   const last = sh.getLastRow();
-  if (last < 2) return '';
-  const rows = sh.getRange(2, 3, last - 1, 6).getValues(); // columns C..H
+  if (last < 2) return false;
+  const rows = sh.getRange(2, 3, last - 1, 1).getValues(); // column C
   for (let i = 0; i < rows.length; i++) {
-    if (normPhone(rows[i][0]) === phone && rows[i][5]) return String(rows[i][5]);
+    if (normPhone(rows[i][0]) === phone) return true;
   }
-  return '';
+  return false;
 }
 
 function newCode(sh) {
