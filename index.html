@@ -159,6 +159,9 @@ form { display: flex; flex-direction: column; gap: 18px; }
 .opt .key { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
 .opt span:last-child { min-width: 0; }
 .opt:disabled { cursor: default; }
+.opt.sel { border-color: var(--pumpkin); background: rgba(255,122,18,.16); box-shadow: inset 0 0 0 1px var(--pumpkin); }
+.opt.sel .key { background: var(--pumpkin); color: #1d0b00; border-color: var(--pumpkin); }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 .opt.right { border-color: var(--slime); background: rgba(155,227,90,.12); }
 .opt.right .key { background: var(--slime); color: #142400; border-color: var(--slime); }
 .opt.wrong { border-color: var(--blood); background: rgba(232,65,59,.12); }
@@ -274,7 +277,7 @@ const T = {
     start: "Zaczynamy",
     errName: "Wpisz swoje imię", errVenue: "Wybierz lokal", errPhone: "Wpisz poprawny numer telefonu", errPhoneUsed: "Ten numer już spróbował swoich sił", errConsent: "Zaznacz zgodę, żeby zagrać",
     question: "Pytanie", points: "Poprawne", progress: (a, b) => `Postęp: pytanie ${a} z ${b}`,
-    ok: "Dobrze!", no: "Źle!", next: "Następne pytanie", finish: "Zobacz wynik",
+    confirm: "Zatwierdź odpowiedź", ok: "Dobrze!", no: "Źle!", next: "Następne pytanie", finish: "Zobacz wynik",
     score: s => `Twój wynik: ${s} z 10`,
     winTitle: "Cukierek!", winText: v => `Wszystkie 10 odpowiedzi poprawnie, więc psikusa nie będzie! Twoja nagroda to deser w prezencie w ${v}. Nagrody obowiązują od 01.11 do 30.11.2026`,
     loseTitle: "Prawie!", loseText: "Tym razem deser się wymknął, ale dziękujemy za grę! Czekamy na Was ponownie",
@@ -298,14 +301,14 @@ const T = {
     ]
   },
   uk: {
-    eyebrow: "Квіз на Геловін · 10 питань", title: "Солодощі<br>або смерть",
+    eyebrow: "Квіз на Хелловін · 10 питань", title: "Солодощі<br>або смерть",
     lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок. Один номер телефону, одна спроба",
     name: "Ім'я", namePh: "напр. Оля", lang: "Мова", venue: "Заклад", phone: "Номер телефону",
-    consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Геловін",
+    consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Хелловін",
     start: "Почати",
     errName: "Впиши своє ім'я", errVenue: "Обери заклад", errPhone: "Впиши правильний номер телефону", errPhoneUsed: "Цей номер уже спробував свої сили", errConsent: "Постав згоду, щоб грати",
     question: "Питання", points: "Правильних", progress: (a, b) => `Прогрес: питання ${a} з ${b}`,
-    ok: "Правильно!", no: "Неправильно!", next: "Наступне питання", finish: "Побачити результат",
+    confirm: "Підтвердити відповідь", ok: "Правильно!", no: "Неправильно!", next: "Наступне питання", finish: "Побачити результат",
     score: s => `Твій результат: ${s} з 10`,
     winTitle: "Солодощі!", winText: v => `Усі 10 відповідей правильні, тож смерть сьогодні відпочиває! Твій приз: десерт у подарунок у ${v}. Призи діють з 01.11 до 30.11.2026`,
     loseTitle: "Майже!", loseText: "Цього разу десерт вислизнув, але дякуємо за гру! Чекаємо на вас ще",
@@ -316,15 +319,15 @@ const T = {
     ticket: "Твій приз", code: "Код", prize: "Десерт у подарунок", tName: "Ім'я", tVenue: "Заклад", tUntil: "Діє",
     show: "Під час наступного візиту покажи офіціанту цей скрін або назви номер телефону, який виграв", valid: "з 01.11 до 30.11.2026",
     qs: [
-      ["Який овоч є головним символом Геловіна?", ["Кавун", "Гарбуз", "Диня"]],
-      ["Якого числа святкують Геловін?", ["31 жовтня", "1 листопада", "30 листопада"]],
+      ["Який овоч є головним символом Хелловіна?", ["Кавун", "Гарбуз", "Диня"]],
+      ["Якого числа святкують Хелловін?", ["31 жовтня", "1 листопада", "30 листопада"]],
       ["Яку фразу кажуть діти, випрошуючи цукерки?", ["Час іде!", "Відчиняйте двері!", "Цукерки або смерть!"]],
       ["У яку тварину найчастіше перетворюється вампір?", ["Вовк", "Чорна кішка", "Кажан"]],
       ["Чого найбільше боїться вампір?", ["Часника", "Цибулі", "Перцю"]],
       ["Як звати дівчинку з двома косичками з моторошної сімейки Адамсів?", ["Мортіша", "Венздей", "Енід"]],
       ["Хто, згідно з легендами, не відбивається в дзеркалі?", ["Привид", "Вампір", "Відьма"]],
       ["Як звати найвідомішого графа-вампіра?", ["Франкенштейн", "Дракула", "Каспер"]],
-      ["З якої країни походить свято Геловін?", ["США", "Мексика", "Ірландія"]],
+      ["З якої країни походить свято Хелловін?", ["США", "Мексика", "Ірландія"]],
       ["Який метал смертельно небезпечний для перевертнів?", ["Золото", "Срібло", "Мідь"]]
     ]
   },
@@ -336,7 +339,7 @@ const T = {
     start: "Start",
     errName: "Enter your name", errVenue: "Choose a venue", errPhone: "Enter a valid phone number", errPhoneUsed: "This number has already had its go", errConsent: "Tick the consent box to play",
     question: "Question", points: "Correct", progress: (a, b) => `Progress: question ${a} of ${b}`,
-    ok: "Correct!", no: "Wrong!", next: "Next question", finish: "See my score",
+    confirm: "Confirm answer", ok: "Correct!", no: "Wrong!", next: "Next question", finish: "See my score",
     score: s => `Your score: ${s} of 10`,
     winTitle: "Treat!", winText: v => `All 10 correct, so no tricks tonight! Your prize is a free dessert at ${v}. Prizes are valid from 1 November to 30 November 2026`,
     loseTitle: "So close!", loseText: "The dessert slipped away this time, but thanks for playing! We look forward to seeing you again",
@@ -496,7 +499,7 @@ async function checkPhone(btn) {
 }
 
 function startRound() {
-  Object.assign(state, { screen: "question", i: 0, score: 0, results: [], given: [], picked: null, prize: null, resultView: null, attempt: state.attempt + 1 });
+  Object.assign(state, { screen: "question", i: 0, score: 0, results: [], given: [], picked: null, selected: null, prize: null, resultView: null, attempt: state.attempt + 1 });
   render();
   window.scrollTo({ top: 0 });
 }
@@ -521,26 +524,43 @@ function renderQuestion() {
       <h2 id="qtext">${esc(q)}</h2>
       <div class="options" role="group" aria-labelledby="qtext">
         ${opts.map((o, k) => {
-          const cls = !answered ? "" : k === p ? (ok ? "right" : "wrong") : "dim";
-          return `<button class="opt ${cls}" id="opt-${k}" data-k="${k}"${answered ? " disabled" : ""}><span class="key">${KEYS[k]}</span><span>${esc(o)}</span></button>`;
+          const cls = !answered ? (k === state.selected ? "sel" : "") : k === p ? (ok ? "right" : "wrong") : "dim";
+          const pressed = !answered ? ` aria-pressed="${k === state.selected}"` : "";
+          return `<button class="opt ${cls}" id="opt-${k}" data-k="${k}"${pressed}${answered ? " disabled" : ""}><span class="key">${KEYS[k]}</span><span>${esc(o)}</span></button>`;
         }).join("")}
       </div>
       ${answered ? `
         <p class="verdict ${ok ? "ok" : "no"}" role="status">${esc(ok ? L.ok : L.no)}</p>
-        <button class="btn" id="next">${esc(last ? L.finish : L.next)}</button>` : ""}
+        <button class="btn" id="next">${esc(last ? L.finish : L.next)}</button>` : `
+        <button class="btn" id="confirm"${state.selected === null ? " disabled" : ""}>${esc(L.confirm)}</button>`}
     </section>`;
-  app.querySelectorAll(".opt:not(:disabled)").forEach(b => b.addEventListener("click", () => answer(+b.dataset.k)));
+  app.querySelectorAll(".opt:not(:disabled)").forEach(b => b.addEventListener("click", () => select(+b.dataset.k)));
+  const confirmBtn = document.getElementById("confirm");
+  if (confirmBtn) confirmBtn.addEventListener("click", () => { if (state.selected !== null) answer(state.selected); });
   const next = document.getElementById("next");
   if (next) {
     next.focus({ preventScroll: true });
     next.addEventListener("click", () => {
       state.picked = null;
+      state.selected = null;
       if (last) finish(); else { state.i++; render(); }
     });
   }
 }
 
+// Highlights the chosen option without counting it until the player confirms.
+function select(k) {
+  state.selected = k;
+  app.querySelectorAll(".opt").forEach(b => {
+    const on = +b.dataset.k === k;
+    b.classList.toggle("sel", on);
+    b.setAttribute("aria-pressed", String(on));
+  });
+  document.getElementById("confirm").disabled = false;
+}
+
 function answer(k) {
+  state.selected = null;
   const ok = k === CORRECT[state.i];
   if (ok) state.score++;
   state.results.push(ok);
