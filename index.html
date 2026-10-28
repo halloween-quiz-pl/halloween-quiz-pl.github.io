@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Halloween quiz: SushiBang Resto.Bar & Labirynt">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Nawiedzony Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&family=Ruslan+Display&family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: one narrow column floating over a graveyard at night; harvest moon, bats, fog, web and a dangling spider; progress = 10 pumpkins that light up */
+:root {
+  --night: #0f0818;
+  --night-2: #1f0f2e;
+  --ink: #06030a;
+  --card: #1c0f29;
+  --line: #4a2a5e;
+  --text: #f6ecdf;
+  --muted: #bba6cc;
+  --pumpkin: #ff7a12;
+  --pumpkin-deep: #c24c00;
+  --candle: #ffd36b;
+  --slime: #9be35a;
+  --blood: #e8413b;
+  --font-display: "Rubik Wet Paint", "Ruslan Display", "Georgia", serif;
+  --font-body: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+html, body { min-height: 100%; }
+body { background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.5; overflow-x: hidden; }
+
+/* ---------- scenery ---------- */
+.sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  background:
+    radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 8%, #fff6 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 22%, #fff7 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 12%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 42%, #fff5 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 92% 38%, #fff6 50%, transparent 51%),
+    radial-gradient(1px 1px at 55% 35%, #fff4 50%, transparent 51%),
+    radial-gradient(1px 1px at 35% 48%, #fff4 50%, transparent 51%),
+    radial-gradient(ellipse 140% 70% at 50% 100%, #3a1530 0%, var(--night-2) 35%, var(--night) 75%); }
+.moon { position: absolute; top: 5vh; right: 6vw; width: clamp(110px, 24vw, 220px); aspect-ratio: 1; max-width: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #ffe9b8, #ffbf5c 50%, #f08a1c 85%);
+  box-shadow: 0 0 80px 24px rgba(255,150,40,.35), 0 0 220px 90px rgba(255,100,20,.15); }
+.moon::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 62% 60%, rgba(160,70,10,.35) 0 9%, transparent 10%),
+              radial-gradient(circle at 33% 68%, rgba(160,70,10,.28) 0 6%, transparent 7%),
+              radial-gradient(circle at 70% 30%, rgba(160,70,10,.22) 0 5%, transparent 6%); }
+.graveyard { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 26vh; min-height: 140px; display: block; }
+.graveyard .win { fill: var(--candle); animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 0%,100% { opacity: .95; } 45% { opacity: .55; } 50% { opacity: .9; } 70% { opacity: .7; } }
+.fog { position: absolute; left: -50%; width: 200%; height: 30vh; bottom: -4vh; opacity: .55;
+  background: radial-gradient(ellipse 30% 50% at 20% 60%, rgba(200,180,220,.18), transparent 70%),
+              radial-gradient(ellipse 25% 45% at 55% 70%, rgba(200,180,220,.14), transparent 70%),
+              radial-gradient(ellipse 30% 50% at 85% 55%, rgba(200,180,220,.16), transparent 70%);
+  animation: drift 45s linear infinite; }
+.fog.f2 { bottom: -10vh; opacity: .4; animation-duration: 70s; animation-direction: reverse; }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(25%); } }
+.bat { position: absolute; width: 38px; color: var(--ink); animation: fly 20s linear infinite; }
+.bat svg { width: 100%; display: block; animation: flap .3s ease-in-out infinite alternate; }
+.bat.b1 { top: 14vh; }
+.bat.b2 { width: 24px; top: 24vh; animation-duration: 28s; animation-delay: -11s; }
+.bat.b3 { width: 30px; top: 9vh; animation-duration: 24s; animation-delay: -4s; }
+@keyframes fly { from { transform: translate(-12vw, 0); } 50% { transform: translate(55vw, -5vh); } to { transform: translate(115vw, 2vh); } }
+@keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(.5); } }
+.web { position: absolute; top: 0; left: 0; width: clamp(120px, 26vw, 220px); max-width: 100%; opacity: .5; }
+.spider { position: absolute; top: 0; right: clamp(24px, 14vw, 180px); width: 30px; transform-origin: 50% 0; animation: swing 5s ease-in-out infinite; }
+.spider .thread { width: 1px; height: clamp(90px, 22vh, 200px); margin: 0 auto; background: rgba(230,220,240,.45); animation: dangle 9s ease-in-out infinite; }
+.spider svg { display: block; width: 30px; margin-top: -2px; }
+@keyframes swing { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-4deg); } }
+@keyframes dangle { 0%,100% { height: clamp(90px, 22vh, 200px); } 50% { height: clamp(60px, 15vh, 140px); } }
+
+/* ---------- page ---------- */
+.page { position: relative; z-index: 1; max-width: 580px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 30vh; display: flex; flex-direction: column; gap: 16px; }
+.topbar { display: flex; justify-content: flex-end; min-height: 36px; }
+.lang { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: rgba(15,8,24,.8); border: 1px solid var(--line); }
+.lang button { font: inherit; font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.lang button:hover { color: var(--text); }
+.lang button[aria-pressed="true"] { background: var(--pumpkin); color: #1d0b00; }
+.lang button:focus-visible { outline: 2px solid var(--candle); outline-offset: 2px; }
+
+.card { position: relative; background: linear-gradient(180deg, rgba(34,17,49,.94), rgba(20,10,30,.96));
+  border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px;
+  box-shadow: 0 0 0 1px rgba(255,122,18,.08), 0 0 40px rgba(255,122,18,.12), 0 24px 70px rgba(0,0,0,.6);
+  display: flex; flex-direction: column; gap: 18px; }
+@media (max-width: 420px) { .card { padding: 22px 16px; } }
+
+.hero { display: flex; gap: 16px; align-items: center; }
+.jack { flex: none; width: clamp(84px, 24vw, 120px); max-width: 100%; filter: drop-shadow(0 0 22px rgba(255,122,18,.55)); }
+.jack .carve { fill: var(--candle); animation: candle 2.2s ease-in-out infinite; }
+@keyframes candle { 0%,100% { opacity: 1; } 30% { opacity: .7; } 35% { opacity: .95; } 60% { opacity: .8; } }
+.hero-text { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--candle); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(38px, 10vw, 58px); line-height: .95; margin: 0;
+  color: var(--pumpkin); text-shadow: 0 0 24px rgba(255,122,18,.5), 0 3px 0 #5a1d00; text-wrap: balance; }
+h2 { font-weight: 700; font-size: clamp(20px, 5.2vw, 24px); line-height: 1.3; margin: 0; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0; max-width: 46ch; }
+
+form { display: flex; flex-direction: column; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field > label, .field > legend { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0; }
+.field input[type=text], .field input[type=tel] { font: inherit; color: var(--text); background: rgba(10,5,16,.75); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; width: 100%; }
+.field input::placeholder { color: #776487; }
+.field input:focus-visible { outline: 2px solid var(--pumpkin); outline-offset: 2px; border-color: transparent; }
+.err { color: var(--blood); font-size: 13px; margin: 0; }
+.invalid input[type=text], .invalid input[type=tel] { border-color: var(--blood); }
+
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.choice { position: relative; display: block; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choice span { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; background: rgba(10,5,16,.6); transition: border-color .15s, background .15s; }
+.seg .choice span { justify-content: center; font-weight: 700; }
+.choice:hover span { border-color: #7a4a90; }
+.choice input:checked + span { border-color: var(--pumpkin); background: rgba(255,122,18,.14); box-shadow: inset 0 0 0 1px var(--pumpkin); }
+.choice input:focus-visible + span { outline: 2px solid var(--candle); outline-offset: 2px; }
+.venues { display: flex; flex-direction: column; gap: 8px; }
+.venues .choice span { flex-direction: column; align-items: flex-start; gap: 0; }
+.venues b { font-weight: 700; }
+.venues small { color: var(--muted); font-size: 13px; }
+
+.consent { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--muted); cursor: pointer; }
+.consent input { flex: none; width: 20px; height: 20px; margin-top: 1px; accent-color: var(--pumpkin); }
+.consent input:focus-visible { outline: 2px solid var(--candle); outline-offset: 2px; }
+
+.btn { font: inherit; font-weight: 800; font-size: 17px; border: 0; border-radius: 14px; padding: 15px 20px; cursor: pointer;
+  background: linear-gradient(180deg, #ff9a3c, var(--pumpkin) 45%, var(--pumpkin-deep)); color: #1d0b00;
+  box-shadow: 0 6px 26px rgba(255,122,18,.4), inset 0 1px 0 rgba(255,255,255,.35); transition: transform .12s, box-shadow .12s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 8px 34px rgba(255,122,18,.55), inset 0 1px 0 rgba(255,255,255,.35); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--candle); outline-offset: 3px; }
+
+.meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.meta b { color: var(--text); font-variant-numeric: tabular-nums; }
+.patch { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.pk { color: #3a2450; transition: color .3s, filter .3s; }
+.pk svg { width: 100%; max-width: 30px; display: block; margin: 0 auto; }
+.pk .stem { fill: #2f5422; }
+.pk .face { fill: transparent; }
+.pk.now { color: #6e4424; animation: flicker 1.4s ease-in-out infinite; }
+.pk.ok { color: var(--pumpkin); filter: drop-shadow(0 0 6px rgba(255,122,18,.75)); }
+.pk.ok .face { fill: var(--candle); }
+.pk.miss { color: #4a3a58; }
+@keyframes flicker { 0%,100% { filter: drop-shadow(0 0 2px rgba(255,122,18,.3)); } 50% { filter: drop-shadow(0 0 8px rgba(255,122,18,.65)); } }
+
+.options { display: flex; flex-direction: column; gap: 10px; }
+.opt { font: inherit; font-size: 17px; text-align: left; color: var(--text); background: rgba(10,5,16,.6); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; cursor: pointer;
+  display: flex; gap: 12px; align-items: center; transition: border-color .15s, background .15s, transform .12s; }
+.opt:hover:not(:disabled) { border-color: var(--pumpkin); background: rgba(255,122,18,.1); transform: translateX(3px); }
+.opt:focus-visible { outline: 2px solid var(--pumpkin); outline-offset: 2px; }
+.opt .key { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; border: 1px solid var(--line); color: var(--muted); }
+.opt span:last-child { min-width: 0; }
+.opt:disabled { cursor: default; }
+.opt.right { border-color: var(--slime); background: rgba(155,227,90,.12); }
+.opt.right .key { background: var(--slime); color: #142400; border-color: var(--slime); }
+.opt.wrong { border-color: var(--blood); background: rgba(232,65,59,.12); }
+.opt.wrong .key { background: var(--blood); color: #2a0503; border-color: var(--blood); }
+.opt.dim { opacity: .45; }
+.verdict { margin: 0; font-weight: 800; font-size: 18px; }
+.verdict.ok { color: var(--slime); }
+.verdict.no { color: var(--blood); }
+
+/* result */
+.big { font-family: var(--font-display); font-size: clamp(64px, 19vw, 104px); line-height: .9; margin: 0; text-wrap: balance; }
+.big.treat { color: var(--pumpkin); text-shadow: 0 0 30px rgba(255,122,18,.55), 0 4px 0 #5a1d00; }
+.big.trick { color: var(--slime); text-shadow: 0 0 30px rgba(155,227,90,.45), 0 4px 0 #1f3a07; }
+.scoreline { font-weight: 700; font-size: 18px; margin: 0; font-variant-numeric: tabular-nums; }
+.ticket { position: relative; border-radius: 16px; padding: 18px; display: grid; gap: 10px;
+  background: radial-gradient(circle at 100% 0, rgba(255,211,107,.18), transparent 50%), linear-gradient(135deg, #3a1a0c, #22100a);
+  border: 2px dashed var(--pumpkin); }
+.ticket-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.ticket-head span { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--candle); }
+.ticket-head b { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 20px; letter-spacing: .14em; user-select: all; }
+.ticket-prize { font-family: var(--font-display); font-size: clamp(28px, 8vw, 38px); color: var(--pumpkin); line-height: 1; margin: 0; }
+.ticket dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 14px; }
+.ticket dt { color: var(--muted); }
+.ticket dd { margin: 0; font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.ticket .show { margin: 0; font-size: 13px; color: var(--candle); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+
+.candy { position: fixed; top: -40px; width: 28px; z-index: 5; pointer-events: none; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(115vh) rotate(540deg); } }
+
+.screen { animation: rise .35s ease both; }
+@keyframes rise { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fog, .bat, .bat svg, .pk.now, .screen, .spider, .spider .thread, .jack .carve, .graveyard .win { animation: none !important; }
+  .bat, .candy { display: none; }
+}
+</style>
+</head>
+<body>
+
+
+<div class="sky" aria-hidden="true">
+  <div class="moon"></div>
+  <svg class="web" viewBox="0 0 200 200" fill="none" stroke="#e8dcf2" stroke-width="1">
+    <path d="M0 0L200 60M0 0L150 150M0 0L60 200M0 0L200 0M0 0L0 200"/>
+    <path d="M40 0Q38 14 36 11Q30 26 22 22Q15 34 12 36Q4 38 0 40"/>
+    <path d="M90 0Q86 30 82 27Q68 58 50 50Q34 74 27 82Q12 86 0 90"/>
+    <path d="M140 0Q134 44 128 42Q105 90 78 78Q52 112 42 128Q20 134 0 140"/>
+    <path d="M195 0Q186 60 178 58Q146 124 108 108Q72 154 58 178Q28 186 0 195"/>
+  </svg>
+  <div class="spider">
+    <div class="thread"></div>
+    <svg viewBox="0 0 30 26"><g stroke="#06030a" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <path d="M11 10L3 4L1 9M11 13L2 13L0 17M11 15L4 20L3 25M19 10L27 4L29 9M19 13L28 13L30 17M19 15L26 20L27 25"/></g>
+      <ellipse cx="15" cy="14" rx="6" ry="7" fill="#06030a"/><circle cx="15" cy="6" r="4" fill="#06030a"/>
+      <circle cx="13.5" cy="5.5" r=".9" fill="#ff7a12"/><circle cx="16.5" cy="5.5" r=".9" fill="#ff7a12"/></svg>
+  </div>
+  <div class="bat b1"><svg viewBox="0 0 24 10"><path fill="currentColor" d="M0 4C3 0 6 0 8 3c1-2 2-2 4-1 2-1 3-1 4 1 2-3 5-3 8 1-3-1-5 0-6 2-2-1-4 0-6 2-2-2-4-3-6-2C5 4 3 3 0 4Z"/></svg></div>
+  <div class="bat b2"><svg viewBox="0 0 24 10"><path fill="currentColor" d="M0 4C3 0 6 0 8 3c1-2 2-2 4-1 2-1 3-1 4 1 2-3 5-3 8 1-3-1-5 0-6 2-2-1-4 0-6 2-2-2-4-3-6-2C5 4 3 3 0 4Z"/></svg></div>
+  <div class="bat b3"><svg viewBox="0 0 24 10"><path fill="currentColor" d="M0 4C3 0 6 0 8 3c1-2 2-2 4-1 2-1 3-1 4 1 2-3 5-3 8 1-3-1-5 0-6 2-2-1-4 0-6 2-2-2-4-3-6-2C5 4 3 3 0 4Z"/></svg></div>
+  <svg class="graveyard" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice">
+    <g fill="#06030a">
+      <path d="M0 200V128Q140 86 300 112T610 104T900 118T1200 96V200Z"/>
+      <rect x="160" y="68" width="82" height="50"/><path d="M150 72L201 34L252 72Z"/>
+      <rect x="226" y="44" width="20" height="34"/><path d="M221 47L236 14L251 47Z"/>
+      <path d="M430 116v-24a11 11 0 0 1 22 0v24z"/><path d="M478 118v-30a13 13 0 0 1 26 0v30z"/>
+      <path d="M560 112h6v-16h-10v-6h10v-8h6v8h10v6h-10v16z"/><path d="M640 116v-20a10 10 0 0 1 20 0v20z"/>
+      <path d="M700 118v-26a12 12 0 0 1 24 0v26z"/>
+    </g>
+    <g stroke="#06030a" stroke-linecap="round" fill="none">
+      <path d="M1010 118L1016 46L1004 18" stroke-width="7"/>
+      <path d="M1015 62L1042 36L1058 40M1016 46L1032 14M1013 80L988 58L972 62M1004 18L992 10" stroke-width="3.5"/>
+    </g>
+    <rect class="win" x="172" y="80" width="12" height="14" rx="2"/><rect class="win" x="214" y="80" width="12" height="14" rx="2"/>
+    <rect class="win" x="232" y="54" width="8" height="10" rx="2"/>
+    <rect x="193" y="98" width="16" height="20" fill="#2b1236"/>
+  </svg>
+  <div class="fog"></div>
+  <div class="fog f2"></div>
+</div>
+
+<main class="page">
+  <div class="topbar">
+    <div class="lang" id="topLang" role="group" aria-label="Language" hidden>
+      <button data-lang="pl" aria-label="Polski">PL</button>
+      <button data-lang="uk" aria-label="Українська">UA</button>
+      <button data-lang="en" aria-label="English">EN</button>
+    </div>
+  </div>
+  <div id="app"></div>
+</main>
+
+<script>
+// Google Apps Script web app that appends each finished attempt to the Google Sheet.
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzOXMe-e9BElZZ5nifoqZzOZNbhUZZbH6BtUgpicmdY-iqpnNZqs3AHDTHaULYQPGMg/exec";
+const PRIZE_UNTIL = "30.11.2026";
+
+const VENUES = [
+  { id: "sb-kat", name: "SushiBang Resto.Bar", city: { pl: "Katowice", uk: "Катовіце", en: "Katowice" } },
+  { id: "lab-poz", name: "Labirynt Lounge Bar", city: { pl: "Poznań", uk: "Познань", en: "Poznań" } },
+  { id: "lab-wro", name: "Labirynt Resto.Bar", city: { pl: "Wrocław", uk: "Вроцлав", en: "Wrocław" } }
+];
+
+// index of the correct answer for each question (same order in every language)
+const CORRECT = [1, 0, 2, 2, 0, 1, 1, 1, 2, 1];
+
+const T = {
+  pl: {
+    eyebrow: "Quiz halloweenowy · 10 pytań", title: "Cukierek<br>albo psikus",
+    lead: "Odpowiedz poprawnie na wszystkie 10 pytań, a przy następnej wizycie dostaniesz deser w prezencie.",
+    name: "Imię", namePh: "np. Kasia", lang: "Język", venue: "Lokal", phone: "Numer telefonu",
+    consent: "Wyrażam zgodę na przetwarzanie moich danych (imię, numer telefonu) w celu ewidencji i wydania nagród w quizie halloweenowym.",
+    start: "Zaczynamy",
+    errName: "Wpisz swoje imię.", errVenue: "Wybierz lokal.", errPhone: "Wpisz poprawny numer telefonu.", errConsent: "Zaznacz zgodę, żeby zagrać.",
+    question: "Pytanie", points: "Poprawne", progress: (a, b) => `Postęp: pytanie ${a} z ${b}`,
+    ok: "Dobrze!", no: "Źle!", next: "Następne pytanie", finish: "Zobacz wynik",
+    score: s => `Twój wynik: ${s} z 10`,
+    winTitle: "Cukierek!", winText: v => `Wszystkie 10 odpowiedzi poprawnie, więc psikusa nie będzie. Przy następnej wizycie w ${v} czeka na Ciebie deser w prezencie.`,
+    loseTitle: "Psikus!", loseText: "Tym razem zamiast cukierka jest psikus. Po deser trzeba trafić wszystkie 10 odpowiedzi. Duchy dają Ci kolejną szansę.",
+    retry: "Spróbuj jeszcze raz",
+    sending: "Sprawdzamy odpowiedzi...", sendErr: "Nie udało się wysłać odpowiedzi. Sprawdź internet i spróbuj ponownie.", resend: "Wyślij ponownie",
+    tooMany: "Za dużo prób z tego numeru. Spróbuj ponownie za godzinę.", invalid: "Coś poszło nie tak z danymi. Wróć i sprawdź formularz.", back: "Wróć do formularza",
+    repeat: "Ten numer ma już kupon. Oto Twój kod.",
+    ticket: "Twoja nagroda", code: "Kod", prize: "Deser w prezencie", tName: "Imię", tVenue: "Lokal", tUntil: "Ważne do",
+    show: "Pokaż ten ekran obsłudze przy następnej wizycie.",
+    qs: [
+      ["Które warzywo jest głównym symbolem Halloween?", ["Arbuz", "Dynia", "Melon"]],
+      ["Którego dnia obchodzimy Halloween?", ["31 października", "1 listopada", "30 listopada"]],
+      ["Co mówią dzieci, prosząc o cukierki?", ["Czas leci!", "Otwierajcie drzwi!", "Cukierek albo psikus!"]],
+      ["W jakie zwierzę najczęściej zamienia się wampir?", ["W wilka", "W czarnego kota", "W nietoperza"]],
+      ["Czego najbardziej boi się wampir?", ["Czosnku", "Cebuli", "Pieprzu"]],
+      ["Jak ma na imię dziewczynka z dwoma warkoczykami z Rodziny Addamsów?", ["Morticia", "Wednesday", "Enid"]],
+      ["Kto według legend nie odbija się w lustrze?", ["Duch", "Wampir", "Czarownica"]],
+      ["Jak nazywa się najsłynniejszy hrabia wampir?", ["Frankenstein", "Drakula", "Kacper"]],
+      ["Z jakiego kraju pochodzi Halloween?", ["Z USA", "Z Meksyku", "Z Irlandii"]],
+      ["Jaki metal jest śmiertelnie niebezpieczny dla wilkołaków?", ["Złoto", "Srebro", "Miedź"]]
+    ]
+  },
+  uk: {
+    eyebrow: "Квіз на Геловін · 10 питань", title: "Солодощі<br>або смерть",
+    lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок.",
+    name: "Ім'я", namePh: "напр. Оля", lang: "Мова", venue: "Заклад", phone: "Номер телефону",
+    consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Геловін.",
+    start: "Почати",
+    errName: "Впиши своє ім'я.", errVenue: "Обери заклад.", errPhone: "Впиши правильний номер телефону.", errConsent: "Постав згоду, щоб грати.",
+    question: "Питання", points: "Правильних", progress: (a, b) => `Прогрес: питання ${a} з ${b}`,
+    ok: "Правильно!", no: "Неправильно!", next: "Наступне питання", finish: "Побачити результат",
+    score: s => `Твій результат: ${s} з 10`,
+    winTitle: "Солодощі!", winText: v => `Усі 10 відповідей правильні, тож смерть сьогодні відпочиває. Під час наступного візиту в ${v} на тебе чекає десерт у подарунок.`,
+    loseTitle: "Смерть!", loseText: "Цього разу замість солодощів прийшла смерть. Для десерту треба відповісти правильно на всі 10 питань. Не хвилюйся, на Геловін смерть не назавжди.",
+    retry: "Спробувати ще раз",
+    sending: "Перевіряємо відповіді...", sendErr: "Не вдалося надіслати відповіді. Перевір інтернет і спробуй ще раз.", resend: "Надіслати ще раз",
+    tooMany: "Забагато спроб з цього номера. Спробуй знову за годину.", invalid: "Щось не так із даними. Повернися й перевір форму.", back: "Повернутися до форми",
+    repeat: "На цей номер купон уже видано. Ось твій код.",
+    ticket: "Твій приз", code: "Код", prize: "Десерт у подарунок", tName: "Ім'я", tVenue: "Заклад", tUntil: "Діє до",
+    show: "Покажи цей екран офіціанту під час наступного візиту.",
+    qs: [
+      ["Який овоч є головним символом Геловіна?", ["Кавун", "Гарбуз", "Диня"]],
+      ["Якого числа святкують Геловін?", ["31 жовтня", "1 листопада", "30 листопада"]],
+      ["Яку фразу кажуть діти, випрошуючи цукерки?", ["Час іде!", "Відчиняйте двері!", "Цукерки або смерть!"]],
+      ["У яку тварину найчастіше перетворюється вампір?", ["Вовк", "Чорна кішка", "Кажан"]],
+      ["Чого найбільше боїться вампір?", ["Часника", "Цибулі", "Перцю"]],
+      ["Як звати дівчинку з двома косичками з моторошної сімейки Адамсів?", ["Мортіша", "Венздей", "Енід"]],
+      ["Хто, згідно з легендами, не відбивається в дзеркалі?", ["Привид", "Вампір", "Відьма"]],
+      ["Як звати найвідомішого графа-вампіра?", ["Франкенштейн", "Дракула", "Каспер"]],
+      ["З якої країни походить свято Геловін?", ["США", "Мексика", "Ірландія"]],
+      ["Який метал смертельно небезпечний для перевертнів?", ["Золото", "Срібло", "Мідь"]]
+    ]
+  },
+  en: {
+    eyebrow: "Halloween quiz · 10 questions", title: "Trick<br>or treat",
+    lead: "Answer all 10 questions correctly and get a free dessert on your next visit.",
+    name: "Name", namePh: "e.g. Kate", lang: "Language", venue: "Venue", phone: "Phone number",
+    consent: "I agree to the processing of my data (name, phone number) to record and hand out prizes in the Halloween quiz.",
+    start: "Start",
+    errName: "Enter your name.", errVenue: "Choose a venue.", errPhone: "Enter a valid phone number.", errConsent: "Tick the consent box to play.",
+    question: "Question", points: "Correct", progress: (a, b) => `Progress: question ${a} of ${b}`,
+    ok: "Correct!", no: "Wrong!", next: "Next question", finish: "See my score",
+    score: s => `Your score: ${s} of 10`,
+    winTitle: "Treat!", winText: v => `All 10 correct, so no tricks tonight. A free dessert is waiting for you on your next visit to ${v}.`,
+    loseTitle: "Trick!", loseText: "No treat this time, just a trick. The dessert needs all 10 answers right. The ghosts are giving you another chance.",
+    retry: "Try again",
+    sending: "Checking your answers...", sendErr: "Couldn't send your answers. Check your connection and try again.", resend: "Send again",
+    tooMany: "Too many attempts from this number. Try again in an hour.", invalid: "Something is wrong with your details. Go back and check the form.", back: "Back to the form",
+    repeat: "This number already has a coupon. Here is your code.",
+    ticket: "Your prize", code: "Code", prize: "Free dessert", tName: "Name", tVenue: "Venue", tUntil: "Valid until",
+    show: "Show this screen to the staff on your next visit.",
+    qs: [
+      ["Which vegetable is the main symbol of Halloween?", ["Watermelon", "Pumpkin", "Melon"]],
+      ["On what date is Halloween celebrated?", ["October 31", "November 1", "November 30"]],
+      ["What do kids say when asking for sweets?", ["Time's ticking!", "Open the door!", "Trick or treat!"]],
+      ["What animal does a vampire most often turn into?", ["A wolf", "A black cat", "A bat"]],
+      ["What is a vampire most afraid of?", ["Garlic", "Onion", "Pepper"]],
+      ["What is the name of the girl with two braids from the Addams Family?", ["Morticia", "Wednesday", "Enid"]],
+      ["According to legend, who has no reflection in a mirror?", ["A ghost", "A vampire", "A witch"]],
+      ["What is the name of the most famous vampire count?", ["Frankenstein", "Dracula", "Casper"]],
+      ["Which country does Halloween come from?", ["USA", "Mexico", "Ireland"]],
+      ["Which metal is deadly to werewolves?", ["Gold", "Silver", "Copper"]]
+    ]
+  }
+};
+
+const TOTAL = CORRECT.length;
+const KEYS = ["A", "B", "C"];
+const PUMPKIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="stem" d="M11 3.5c.3-1.3 1.2-2.2 2.6-2.5l.5 1.1c-.9.3-1.5.9-1.6 1.8z"/><g fill="currentColor"><ellipse cx="7.5" cy="14" rx="5.5" ry="7.5"/><ellipse cx="16.5" cy="14" rx="5.5" ry="7.5"/><ellipse cx="12" cy="14" rx="5.5" ry="8"/></g><path class="face" d="M8 11l2 2H7zM16 11l1 2h-3zM8 16c2 2 6 2 8 0l-1.5.4-1 1-1-1-1 1-1-1z"/></svg>';
+const JACK = `<svg class="jack" viewBox="0 0 120 120" aria-hidden="true">
+  <defs><radialGradient id="pg" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#ffb35c"/><stop offset=".55" stop-color="#ff7a12"/><stop offset="1" stop-color="#a83c00"/></radialGradient></defs>
+  <path d="M58 22c0-8 4-14 12-16l3 5c-6 2-8 6-8 11z" fill="#3d6b26"/>
+  <ellipse cx="38" cy="68" rx="28" ry="40" fill="url(#pg)"/><ellipse cx="82" cy="68" rx="28" ry="40" fill="url(#pg)"/>
+  <ellipse cx="60" cy="68" rx="30" ry="44" fill="url(#pg)"/>
+  <path d="M60 26c-6 14-6 70 0 86M60 26c6 14 6 70 0 86" stroke="#b24600" stroke-width="2" fill="none" opacity=".6"/>
+  <g class="carve"><path d="M30 56l14-12 6 16zM90 56l-14-12-6 16zM60 66l-6 10h12z"/>
+  <path d="M26 82c10 16 58 16 68 0l-8 3-5 7-6-6-7 7-6-7-7 7-6-7-6 6-5-7z"/></g></svg>`;
+const CANDY = c => `<svg viewBox="0 0 40 20"><path d="M10 10L0 3v14zM30 10l10-7v14z" fill="${c}" opacity=".8"/><ellipse cx="20" cy="10" rx="11" ry="8" fill="${c}"/><path d="M13 5l8 10M19 3l8 12" stroke="#fff" stroke-opacity=".5" stroke-width="2"/></svg>`;
+
+function store(k, v) { try { v === undefined ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+
+function guessLang() {
+  const saved = load("quiz-lang"); if (T[saved]) return saved;
+  const n = (navigator.language || "pl").slice(0, 2).toLowerCase();
+  return n === "uk" || n === "ru" ? "uk" : n === "en" ? "en" : "pl";
+}
+
+const prize = load("quiz-prize");
+const state = {
+  lang: guessLang(), screen: prize ? "result" : "start",
+  form: { name: "", venue: "", phone: "+48 ", consent: false },
+  errors: {}, i: 0, score: 0, results: [], picked: null, attempt: 0, prize
+};
+const app = document.getElementById("app");
+const t = () => T[state.lang];
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+const venueLabel = id => { const v = VENUES.find(x => x.id === id); return v ? `${v.name} ${v.city[state.lang]}` : ""; };
+
+function setLang(l) {
+  readForm();
+  state.lang = l; store("quiz-lang", l); render();
+}
+document.querySelectorAll("#topLang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+function render() {
+  document.documentElement.lang = state.lang;
+  const top = document.getElementById("topLang");
+  top.hidden = state.screen === "start";
+  top.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang)));
+  ({ start: renderStart, question: renderQuestion, sending: renderSending, error: renderError, result: renderResult })[state.screen]();
+}
+
+function readForm() {
+  if (state.screen !== "start" || !document.getElementById("f-name")) return;
+  state.form.name = document.getElementById("f-name").value;
+  state.form.phone = document.getElementById("f-phone").value;
+  state.form.consent = document.getElementById("f-consent").checked;
+  const v = app.querySelector('input[name="venue"]:checked'); state.form.venue = v ? v.value : "";
+}
+
+function renderStart() {
+  const L = t(), f = state.form, e = state.errors;
+  const err = k => e[k] ? `<p class="err" id="err-${k}">${esc(L["err" + k[0].toUpperCase() + k.slice(1)])}</p>` : "";
+  app.innerHTML = `
+    <section class="card screen">
+      <div class="hero">${JACK}
+        <div class="hero-text"><p class="eyebrow">${esc(L.eyebrow)}</p><h1>${L.title}</h1></div>
+      </div>
+      <p class="lead">${esc(L.lead)}</p>
+      <form id="start" novalidate>
+        <div class="field${e.name ? " invalid" : ""}">
+          <label for="f-name">${esc(L.name)}</label>
+          <input type="text" id="f-name" autocomplete="given-name" placeholder="${esc(L.namePh)}" value="${esc(f.name)}" maxlength="60">
+          ${err("name")}
+        </div>
+        <fieldset class="field">
+          <legend>${esc(L.lang)}</legend>
+          <div class="seg">
+            ${[["pl", "Polski"], ["uk", "Українська"], ["en", "English"]].map(([c, n]) =>
+              `<label class="choice"><input type="radio" name="lang" id="f-lang-${c}" value="${c}"${c === state.lang ? " checked" : ""}><span>${n}</span></label>`).join("")}
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>${esc(L.venue)}</legend>
+          <div class="venues">
+            ${VENUES.map(v => `<label class="choice"><input type="radio" name="venue" id="f-venue-${v.id}" value="${v.id}"${f.venue === v.id ? " checked" : ""}><span><b>${esc(v.name)}</b><small>${esc(v.city[state.lang])}</small></span></label>`).join("")}
+          </div>
+          ${err("venue")}
+        </fieldset>
+        <div class="field${e.phone ? " invalid" : ""}">
+          <label for="f-phone">${esc(L.phone)}</label>
+          <input type="tel" id="f-phone" autocomplete="tel" inputmode="tel" value="${esc(f.phone)}" maxlength="20">
+          ${err("phone")}
+        </div>
+        <div class="field">
+          <label class="consent" for="f-consent"><input type="checkbox" id="f-consent"${f.consent ? " checked" : ""}><span>${esc(L.consent)}</span></label>
+          ${err("consent")}
+        </div>
+        <button class="btn" type="submit">${esc(L.start)}</button>
+      </form>
+    </section>`;
+  app.querySelectorAll('input[name="lang"]').forEach(r => r.addEventListener("change", () => setLang(r.value)));
+  document.getElementById("start").addEventListener("submit", ev => {
+    ev.preventDefault();
+    readForm();
+    const f = state.form, errs = {};
+    if (!f.name.trim()) errs.name = 1;
+    if (!f.venue) errs.venue = 1;
+    if (!/^\+?\d{9,15}$/.test(f.phone.replace(/[\s\-()]/g, ""))) errs.phone = 1;
+    if (!f.consent) errs.consent = 1;
+    state.errors = errs;
+    if (Object.keys(errs).length) {
+      render();
+      const first = { name: "f-name", venue: "f-venue-" + VENUES[0].id, phone: "f-phone", consent: "f-consent" }[Object.keys(errs)[0]];
+      document.getElementById(first).focus();
+      return;
+    }
+    startRound();
+  });
+}
+
+function startRound() {
+  Object.assign(state, { screen: "question", i: 0, score: 0, results: [], given: [], picked: null, attempt: state.attempt + 1 });
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+function patch() {
+  return `<div class="patch" role="img" aria-label="${esc(t().progress(Math.min(state.i + 1, TOTAL), TOTAL))}">` +
+    CORRECT.map((_, k) => {
+      const cls = k < state.results.length ? (state.results[k] ? "ok" : "miss") : (k === state.i ? "now" : "");
+      return `<div class="pk ${cls}">${PUMPKIN}</div>`;
+    }).join("") + `</div>`;
+}
+
+function renderQuestion() {
+  const L = t();
+  const [q, opts] = L.qs[state.i];
+  const p = state.picked, answered = p !== null, ok = p === CORRECT[state.i];
+  const last = state.i === TOTAL - 1;
+  app.innerHTML = `
+    <section class="card${answered ? "" : " screen"}">
+      <div class="meta"><span>${esc(L.question)} <b>${state.i + 1}</b> / ${TOTAL}</span><span>${esc(L.points)}: <b>${state.score}</b></span></div>
+      ${patch()}
+      <h2 id="qtext">${esc(q)}</h2>
+      <div class="options" role="group" aria-labelledby="qtext">
+        ${opts.map((o, k) => {
+          const cls = !answered ? "" : k === p ? (ok ? "right" : "wrong") : "dim";
+          return `<button class="opt ${cls}" id="opt-${k}" data-k="${k}"${answered ? " disabled" : ""}><span class="key">${KEYS[k]}</span><span>${esc(o)}</span></button>`;
+        }).join("")}
+      </div>
+      ${answered ? `
+        <p class="verdict ${ok ? "ok" : "no"}" role="status">${esc(ok ? L.ok : L.no)}</p>
+        <button class="btn" id="next">${esc(last ? L.finish : L.next)}</button>` : ""}
+    </section>`;
+  app.querySelectorAll(".opt:not(:disabled)").forEach(b => b.addEventListener("click", () => answer(+b.dataset.k)));
+  const next = document.getElementById("next");
+  if (next) {
+    next.focus({ preventScroll: true });
+    next.addEventListener("click", () => {
+      state.picked = null;
+      if (last) finish(); else { state.i++; render(); }
+    });
+  }
+}
+
+function answer(k) {
+  const ok = k === CORRECT[state.i];
+  if (ok) state.score++;
+  state.results.push(ok);
+  state.given.push(k);
+  state.picked = k;
+  render();
+}
+
+async function finish() {
+  state.screen = "sending"; state.error = "";
+  render();
+  window.scrollTo({ top: 0 });
+  const f = state.form;
+  const payload = {
+    name: f.name.trim(), phone: f.phone, venueId: f.venue, lang: state.lang,
+    answers: state.given, attempt: state.attempt, consent: f.consent === true
+  };
+  let res = null;
+  try {
+    const r = await fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+    res = await r.json();
+  } catch (e) { res = null; }
+  if (!res || !res.ok) {
+    state.error = !res ? "sendErr" : res.error === "too_many" ? "tooMany" : res.error === "invalid" ? "invalid" : "sendErr";
+    state.screen = "error";
+    render();
+    return;
+  }
+  state.score = res.score;
+  state.repeat = !!res.repeat;
+  if (res.won) {
+    state.prize = { name: payload.name, venueId: f.venue, venue: res.venue, code: res.code, createdAt: new Date().toISOString() };
+    store("quiz-prize", state.prize);
+  }
+  state.screen = "result";
+  render();
+  if (res.won) candyRain();
+}
+
+function renderSending() {
+  app.innerHTML = `
+    <section class="card screen" aria-busy="true">
+      ${patch()}
+      <div class="hero">${JACK}<h2 role="status">${esc(t().sending)}</h2></div>
+    </section>`;
+}
+
+function renderError() {
+  const L = t();
+  const back = state.error === "invalid";
+  app.innerHTML = `
+    <section class="card screen">
+      ${patch()}
+      <h2>${esc(L[state.error] || L.sendErr)}</h2>
+      ${state.error === "tooMany" ? "" : `<button class="btn" id="again">${esc(back ? L.back : L.resend)}</button>`}
+    </section>`;
+  const b = document.getElementById("again");
+  if (b) b.addEventListener("click", () => { if (back) { state.screen = "start"; render(); } else finish(); });
+}
+
+function renderResult() {
+  const L = t();
+  const pz = state.prize;
+  if (pz) {
+    app.innerHTML = `
+      <section class="card screen">
+        ${state.results.length ? patch() : ""}
+        <h1 class="big treat">${esc(L.winTitle)}</h1>
+        ${state.repeat ? `<p class="scoreline">${esc(L.repeat)}</p>` : ""}
+        <p class="lead">${esc(L.winText(venueLabelFromEntry(pz)))}</p>
+        <div class="ticket">
+          <div class="ticket-head"><span>${esc(L.ticket)}</span><b>${esc(pz.code)}</b></div>
+          <p class="ticket-prize">${esc(L.prize)}</p>
+          <dl>
+            <dt>${esc(L.tName)}</dt><dd>${esc(pz.name)}</dd>
+            <dt>${esc(L.tVenue)}</dt><dd>${esc(venueLabelFromEntry(pz))}</dd>
+            <dt>${esc(L.tUntil)}</dt><dd>${PRIZE_UNTIL}</dd>
+          </dl>
+          <p class="show">${esc(L.show)}</p>
+        </div>
+      </section>`;
+    return;
+  }
+  app.innerHTML = `
+    <section class="card screen">
+      ${patch()}
+      <h1 class="big trick">${esc(L.loseTitle)}</h1>
+      <p class="scoreline">${esc(L.score(state.score))}</p>
+      <p class="lead">${esc(L.loseText)}</p>
+      <button class="btn" id="retry">${esc(L.retry)}</button>
+    </section>`;
+  document.getElementById("retry").addEventListener("click", startRound);
+}
+
+function venueLabelFromEntry(e) { return venueLabel(e.venueId) || e.venue; }
+
+function candyRain() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const colors = ["#ff7a12", "#9be35a", "#c77dff", "#ffd36b", "#e8413b"];
+  for (let n = 0; n < 28; n++) {
+    const el = document.createElement("div");
+    el.className = "candy";
+    el.innerHTML = CANDY(colors[n % colors.length]);
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = 2.4 + Math.random() * 2.2 + "s";
+    el.style.animationDelay = Math.random() * 1.2 + "s";
+    document.body.appendChild(el);
+    el.addEventListener("animationend", () => el.remove());
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
