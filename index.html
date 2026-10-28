@@ -383,11 +383,11 @@ function guessLang() {
   return n === "uk" || n === "ru" ? "uk" : n === "en" ? "en" : "pl";
 }
 
-const prize = load("quiz-prize");
+store("quiz-prize"); // coupons are no longer kept on the device
 const state = {
-  lang: guessLang(), screen: prize ? "result" : "start",
-  form: { name: "", venue: "", phone: "+48 ", consent: false }, resultView: prize ? "win" : null,
-  errors: {}, i: 0, score: 0, results: [], picked: null, attempt: 0, prize
+  lang: guessLang(), screen: "start",
+  form: { name: "", venue: "", phone: "+48 ", consent: false }, resultView: null,
+  errors: {}, i: 0, score: 0, results: [], picked: null, attempt: 0, prize: null
 };
 const app = document.getElementById("app");
 const t = () => T[state.lang];
@@ -455,17 +455,9 @@ function renderStart() {
           ${err("consent")}
         </div>
         <button class="btn" type="submit">${esc(L.start)}</button>
-        ${state.prize ? `<button class="btn ghost" type="button" id="coupon">${esc(L.myCoupon)}</button>` : ""}
       </form>
     </section>`;
   app.querySelectorAll('input[name="lang"]').forEach(r => r.addEventListener("change", () => setLang(r.value)));
-  const coupon = document.getElementById("coupon");
-  if (coupon) coupon.addEventListener("click", () => {
-    readForm();
-    Object.assign(state, { screen: "result", resultView: "win", results: [] });
-    render();
-    window.scrollTo({ top: 0 });
-  });
   document.getElementById("start").addEventListener("submit", ev => {
     ev.preventDefault();
     readForm();
@@ -504,7 +496,7 @@ async function checkPhone(btn) {
 }
 
 function startRound() {
-  Object.assign(state, { screen: "question", i: 0, score: 0, results: [], given: [], picked: null, attempt: state.attempt + 1 });
+  Object.assign(state, { screen: "question", i: 0, score: 0, results: [], given: [], picked: null, prize: null, resultView: null, attempt: state.attempt + 1 });
   render();
   window.scrollTo({ top: 0 });
 }
@@ -586,7 +578,6 @@ async function finish() {
   state.score = res.score;
   if (res.won) {
     state.prize = { name: payload.name, venueId: f.venue, venue: res.venue, code: res.code, createdAt: new Date().toISOString() };
-    store("quiz-prize", state.prize);
   }
   state.resultView = res.won ? "win" : "lose";
   state.screen = "result";
