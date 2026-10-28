@@ -169,7 +169,7 @@ form { display: flex; flex-direction: column; gap: 18px; }
 .verdict.no { color: var(--blood); }
 
 /* result */
-.big { font-family: var(--font-display); font-size: clamp(64px, 19vw, 104px); line-height: .9; margin: 0; text-wrap: balance; }
+.big { font-family: var(--font-display); font-size: clamp(40px, 11vw, 64px); line-height: .95; margin: 0; text-wrap: balance; overflow-wrap: break-word; max-width: 100%; }
 .big.treat { color: var(--pumpkin); text-shadow: 0 0 30px rgba(255,122,18,.55), 0 4px 0 #5a1d00; }
 .big.trick { color: var(--slime); text-shadow: 0 0 30px rgba(155,227,90,.45), 0 4px 0 #1f3a07; }
 .scoreline { font-weight: 700; font-size: 18px; margin: 0; font-variant-numeric: tabular-nums; }
@@ -255,7 +255,6 @@ form { display: flex; flex-direction: column; gap: 18px; }
 <script>
 // Google Apps Script web app that appends each finished attempt to the Google Sheet.
 const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzOXMe-e9BElZZ5nifoqZzOZNbhUZZbH6BtUgpicmdY-iqpnNZqs3AHDTHaULYQPGMg/exec";
-const PRIZE_UNTIL = "30.11.2026";
 
 const VENUES = [
   { id: "sb-kat", name: "SushiBang Resto.Bar", city: { pl: "Katowice", uk: "Катовіце", en: "Katowice" } },
@@ -269,22 +268,22 @@ const CORRECT = [1, 0, 2, 2, 0, 1, 1, 1, 2, 1];
 const T = {
   pl: {
     eyebrow: "Quiz halloweenowy · 10 pytań", title: "Cukierek<br>albo psikus",
-    lead: "Odpowiedz poprawnie na wszystkie 10 pytań, a przy następnej wizycie dostaniesz deser w prezencie. Jeden numer telefonu to jedna próba.",
+    lead: "Odpowiedz poprawnie na wszystkie 10 pytań, a przy następnej wizycie dostaniesz deser w prezencie. Jeden numer telefonu to jedna próba",
     name: "Imię", namePh: "np. Kasia", lang: "Język", venue: "Lokal", phone: "Numer telefonu",
-    consent: "Wyrażam zgodę na przetwarzanie moich danych (imię, numer telefonu) w celu ewidencji i wydania nagród w quizie halloweenowym.",
+    consent: "Wyrażam zgodę na przetwarzanie moich danych (imię, numer telefonu) w celu ewidencji i wydania nagród w quizie halloweenowym",
     start: "Zaczynamy",
-    errName: "Wpisz swoje imię.", errVenue: "Wybierz lokal.", errPhone: "Wpisz poprawny numer telefonu.", errConsent: "Zaznacz zgodę, żeby zagrać.",
+    errName: "Wpisz swoje imię", errVenue: "Wybierz lokal", errPhone: "Wpisz poprawny numer telefonu", errPhoneUsed: "Ten numer już spróbował swoich sił", errConsent: "Zaznacz zgodę, żeby zagrać",
     question: "Pytanie", points: "Poprawne", progress: (a, b) => `Postęp: pytanie ${a} z ${b}`,
     ok: "Dobrze!", no: "Źle!", next: "Następne pytanie", finish: "Zobacz wynik",
     score: s => `Twój wynik: ${s} z 10`,
-    winTitle: "Cukierek!", winText: v => `Wszystkie 10 odpowiedzi poprawnie, więc psikusa nie będzie. Przy następnej wizycie w ${v} czeka na Ciebie deser w prezencie.`,
-    loseTitle: "Prawie!", loseText: "Tym razem deser się wymknął, ale dziękujemy za grę! Do zobaczenia w Halloween.",
+    winTitle: "Cukierek!", winText: v => `Wszystkie 10 odpowiedzi poprawnie, więc psikusa nie będzie! Twoja nagroda to deser w prezencie w ${v}. Nagrody obowiązują od 01.11 do 30.11.2026`,
+    loseTitle: "Prawie!", loseText: "Tym razem deser się wymknął, ale dziękujemy za grę! Do zobaczenia w Halloween",
     retry: "Spróbuj jeszcze raz", home: "Wróć na start", myCoupon: "Mój kupon na deser",
-    sending: "Sprawdzamy odpowiedzi...", sendErr: "Nie udało się wysłać odpowiedzi. Sprawdź internet i spróbuj ponownie.", resend: "Wyślij ponownie",
-    tooMany: "Za dużo prób z tego numeru. Spróbuj ponownie za godzinę.", invalid: "Coś poszło nie tak z danymi. Wróć i sprawdź formularz.", back: "Wróć do formularza",
-    used: "Ten numer już brał udział w quizie. Jeden numer telefonu to jedna próba. Jeśli wygrał kupon, pokaż kod obsłudze albo podaj numer telefonu.", checking: "Sprawdzamy numer...",
-    ticket: "Twoja nagroda", code: "Kod", prize: "Deser w prezencie", tName: "Imię", tVenue: "Lokal", tUntil: "Ważne do",
-    show: "Pokaż ten ekran obsłudze przy następnej wizycie.",
+    sending: "Sprawdzamy odpowiedzi...", sendErr: "Nie udało się wysłać odpowiedzi. Sprawdź internet i spróbuj ponownie", resend: "Wyślij ponownie",
+    tooMany: "Za dużo prób z tego numeru. Spróbuj ponownie za godzinę", invalid: "Coś poszło nie tak z danymi. Wróć i sprawdź formularz", back: "Wróć do formularza",
+    checking: "Sprawdzamy numer...",
+    ticket: "Twoja nagroda", code: "Kod", prize: "Deser w prezencie", tName: "Imię", tVenue: "Lokal", tUntil: "Ważne",
+    show: "Przy następnej wizycie pokaż obsłudze ten zrzut ekranu albo podaj numer telefonu, który wygrał", valid: "od 01.11 do 30.11.2026",
     qs: [
       ["Które warzywo jest głównym symbolem Halloween?", ["Arbuz", "Dynia", "Melon"]],
       ["Którego dnia obchodzimy Halloween?", ["31 października", "1 listopada", "30 listopada"]],
@@ -300,22 +299,22 @@ const T = {
   },
   uk: {
     eyebrow: "Квіз на Геловін · 10 питань", title: "Солодощі<br>або смерть",
-    lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок. Один номер телефону, одна спроба.",
+    lead: "Дай правильну відповідь на всі 10 питань, і під час наступного візиту отримаєш десерт у подарунок. Один номер телефону, одна спроба",
     name: "Ім'я", namePh: "напр. Оля", lang: "Мова", venue: "Заклад", phone: "Номер телефону",
-    consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Геловін.",
+    consent: "Я погоджуюсь на обробку моїх даних (ім'я, номер телефону) для фіксації та видачі призів у квізі на Геловін",
     start: "Почати",
-    errName: "Впиши своє ім'я.", errVenue: "Обери заклад.", errPhone: "Впиши правильний номер телефону.", errConsent: "Постав згоду, щоб грати.",
+    errName: "Впиши своє ім'я", errVenue: "Обери заклад", errPhone: "Впиши правильний номер телефону", errPhoneUsed: "Цей номер уже спробував свої сили", errConsent: "Постав згоду, щоб грати",
     question: "Питання", points: "Правильних", progress: (a, b) => `Прогрес: питання ${a} з ${b}`,
     ok: "Правильно!", no: "Неправильно!", next: "Наступне питання", finish: "Побачити результат",
     score: s => `Твій результат: ${s} з 10`,
-    winTitle: "Солодощі!", winText: v => `Усі 10 відповідей правильні, тож смерть сьогодні відпочиває. Під час наступного візиту в ${v} на тебе чекає десерт у подарунок.`,
-    loseTitle: "Майже!", loseText: "Цього разу десерт вислизнув, але дякуємо за гру! Чекаємо тебе в гості на Геловін.",
+    winTitle: "Солодощі!", winText: v => `Усі 10 відповідей правильні, тож смерть сьогодні відпочиває! Твій приз: десерт у подарунок у ${v}. Призи діють з 01.11 до 30.11.2026`,
+    loseTitle: "Майже!", loseText: "Цього разу десерт вислизнув, але дякуємо за гру! Чекаємо тебе в гості на Геловін",
     retry: "Спробувати ще раз", home: "На головну", myCoupon: "Мій купон на десерт",
-    sending: "Перевіряємо відповіді...", sendErr: "Не вдалося надіслати відповіді. Перевір інтернет і спробуй ще раз.", resend: "Надіслати ще раз",
-    tooMany: "Забагато спроб з цього номера. Спробуй знову за годину.", invalid: "Щось не так із даними. Повернися й перевір форму.", back: "Повернутися до форми",
-    used: "Цей номер уже брав участь у квізі. Один номер телефону, одна спроба. Якщо цей номер виграв купон, покажи код офіціанту або просто назви номер телефону.", checking: "Перевіряємо номер...",
-    ticket: "Твій приз", code: "Код", prize: "Десерт у подарунок", tName: "Ім'я", tVenue: "Заклад", tUntil: "Діє до",
-    show: "Покажи цей екран офіціанту під час наступного візиту.",
+    sending: "Перевіряємо відповіді...", sendErr: "Не вдалося надіслати відповіді. Перевір інтернет і спробуй ще раз", resend: "Надіслати ще раз",
+    tooMany: "Забагато спроб з цього номера. Спробуй знову за годину", invalid: "Щось не так із даними. Повернися й перевір форму", back: "Повернутися до форми",
+    checking: "Перевіряємо номер...",
+    ticket: "Твій приз", code: "Код", prize: "Десерт у подарунок", tName: "Ім'я", tVenue: "Заклад", tUntil: "Діє",
+    show: "Під час наступного візиту покажи офіціанту цей скрін або назви номер телефону, який виграв", valid: "з 01.11 до 30.11.2026",
     qs: [
       ["Який овоч є головним символом Геловіна?", ["Кавун", "Гарбуз", "Диня"]],
       ["Якого числа святкують Геловін?", ["31 жовтня", "1 листопада", "30 листопада"]],
@@ -331,22 +330,22 @@ const T = {
   },
   en: {
     eyebrow: "Halloween quiz · 10 questions", title: "Trick<br>or treat",
-    lead: "Answer all 10 questions correctly and get a free dessert on your next visit. One attempt per phone number.",
+    lead: "Answer all 10 questions correctly and get a free dessert on your next visit. One attempt per phone number",
     name: "Name", namePh: "e.g. Kate", lang: "Language", venue: "Venue", phone: "Phone number",
-    consent: "I agree to the processing of my data (name, phone number) to record and hand out prizes in the Halloween quiz.",
+    consent: "I agree to the processing of my data (name, phone number) to record and hand out prizes in the Halloween quiz",
     start: "Start",
-    errName: "Enter your name.", errVenue: "Choose a venue.", errPhone: "Enter a valid phone number.", errConsent: "Tick the consent box to play.",
+    errName: "Enter your name", errVenue: "Choose a venue", errPhone: "Enter a valid phone number", errPhoneUsed: "This number has already had its go", errConsent: "Tick the consent box to play",
     question: "Question", points: "Correct", progress: (a, b) => `Progress: question ${a} of ${b}`,
     ok: "Correct!", no: "Wrong!", next: "Next question", finish: "See my score",
     score: s => `Your score: ${s} of 10`,
-    winTitle: "Treat!", winText: v => `All 10 correct, so no tricks tonight. A free dessert is waiting for you on your next visit to ${v}.`,
-    loseTitle: "So close!", loseText: "The dessert slipped away this time, but thanks for playing! See you this Halloween.",
+    winTitle: "Treat!", winText: v => `All 10 correct, so no tricks tonight! Your prize is a free dessert at ${v}. Prizes are valid from 1 November to 30 November 2026`,
+    loseTitle: "So close!", loseText: "The dessert slipped away this time, but thanks for playing! See you this Halloween",
     retry: "Try again", home: "Back to start", myCoupon: "My dessert coupon",
-    sending: "Checking your answers...", sendErr: "Couldn't send your answers. Check your connection and try again.", resend: "Send again",
-    tooMany: "Too many attempts from this number. Try again in an hour.", invalid: "Something is wrong with your details. Go back and check the form.", back: "Back to the form",
-    used: "This number has already taken the quiz. One attempt per phone number. If it won a coupon, show the code to the staff or just give them the phone number.", checking: "Checking your number...",
-    ticket: "Your prize", code: "Code", prize: "Free dessert", tName: "Name", tVenue: "Venue", tUntil: "Valid until",
-    show: "Show this screen to the staff on your next visit.",
+    sending: "Checking your answers...", sendErr: "Couldn't send your answers. Check your connection and try again", resend: "Send again",
+    tooMany: "Too many attempts from this number. Try again in an hour", invalid: "Something is wrong with your details. Go back and check the form", back: "Back to the form",
+    checking: "Checking your number...",
+    ticket: "Your prize", code: "Code", prize: "Free dessert", tName: "Name", tVenue: "Venue", tUntil: "Valid",
+    show: "On your next visit, show this screenshot to the staff or give them the phone number that won", valid: "1 Nov to 30 Nov 2026",
     qs: [
       ["Which vegetable is the main symbol of Halloween?", ["Watermelon", "Pumpkin", "Melon"]],
       ["On what date is Halloween celebrated?", ["October 31", "November 1", "November 30"]],
@@ -419,7 +418,7 @@ function readForm() {
 
 function renderStart() {
   const L = t(), f = state.form, e = state.errors;
-  const err = k => e[k] ? `<p class="err" id="err-${k}">${esc(L["err" + k[0].toUpperCase() + k.slice(1)])}</p>` : "";
+  const err = k => e[k] ? `<p class="err" id="err-${k}">${esc(e[k] === "used" ? L.errPhoneUsed : L["err" + k[0].toUpperCase() + k.slice(1)])}</p>` : "";
   app.innerHTML = `
     <section class="card screen">
       <div class="hero">${JACK}
@@ -494,9 +493,11 @@ async function checkPhone(btn) {
     res = await r.json();
   } catch (e) { res = null; }
   if (res && res.ok && res.used) {
-    state.error = "used"; state.screen = "error"; state.results = [];
+    state.errors = { phone: "used" };
     render();
-    window.scrollTo({ top: 0 });
+    const f = document.getElementById("f-phone");
+    f.focus();
+    f.scrollIntoView({ block: "center" });
     return;
   }
   startRound();
@@ -570,6 +571,12 @@ async function finish() {
     const r = await fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
     res = await r.json();
   } catch (e) { res = null; }
+  if (res && res.error === "used") {
+    Object.assign(state, { screen: "start", errors: { phone: "used" }, results: [], picked: null });
+    render();
+    document.getElementById("f-phone").scrollIntoView({ block: "center" });
+    return;
+  }
   if (!res || !res.ok) {
     state.error = !res ? "sendErr" : res.error === "too_many" ? "tooMany" : res.error === "invalid" ? "invalid" : "sendErr";
     state.screen = "error";
@@ -598,7 +605,7 @@ function renderSending() {
 function renderError() {
   const L = t();
   const back = state.error === "invalid";
-  const done = state.error === "used" || state.error === "tooMany";
+  const done = state.error === "tooMany";
   app.innerHTML = `
     <section class="card screen">
       ${state.results.length ? patch() : ""}
@@ -626,7 +633,7 @@ function renderResult() {
           <dl>
             <dt>${esc(L.tName)}</dt><dd>${esc(pz.name)}</dd>
             <dt>${esc(L.tVenue)}</dt><dd>${esc(venueLabelFromEntry(pz))}</dd>
-            <dt>${esc(L.tUntil)}</dt><dd>${PRIZE_UNTIL}</dd>
+            <dt>${esc(L.tUntil)}</dt><dd>${esc(L.valid)}</dd>
           </dl>
           <p class="show">${esc(L.show)}</p>
         </div>
